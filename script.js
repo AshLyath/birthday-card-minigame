@@ -201,11 +201,6 @@ function hitObstacle() {
 }
 
 function handleChoice(isCorrect, name) {
-
-    if (gameState.stress >= 100) {
-    gameState.active = false; // Stop the game loop
-    showPopup("Stress Overload! Game Over", false, () => location.reload(), "TRY AGAIN");
-}
     const warnEl = document.getElementById('warning-text');
     
     if (isCorrect) {
@@ -216,7 +211,6 @@ function handleChoice(isCorrect, name) {
         document.getElementById('qna-options').classList.add('hidden');
         
         if (gameState.level === 3 && !gameState.buffActive) {
-            // POPUP 2: Buff Confirmation
             showPopup(`▶ ACTIVATE ${name.toUpperCase()}?`, false, () => {
                 gameState.buffActive = true;
                 startLevel(3); 
@@ -228,8 +222,14 @@ function handleChoice(isCorrect, name) {
         gameState.stress += 15;
         updateStats(); 
 
-        warnEl.classList.remove('hidden');
+        // If stress is 100+, Game Over immediately
+        if (gameState.stress >= 100) {
+            gameState.active = false;
+            showPopup("Stress Overload! Game Over", false, () => location.reload(), "TRY AGAIN");
+            return; // Stop here so it doesn't try to show warnings
+        }
 
+        warnEl.classList.remove('hidden');
         // Logic-based warnings
         if (gameState.stress <= 55) {
             warnEl.innerText = "⚠ Hey... that doesn’t feel right. Try thinking again.";
@@ -240,37 +240,6 @@ function handleChoice(isCorrect, name) {
         else {
             warnEl.innerText = "⚠ Last warning… Choose wisely before it's too late.";
         }
-
-        // POPUP 3: Triggered by Stress Overload
-        if (gameState.stress >= 100) {
-            showPopup("Stress Overload! Game Over", false, () => location.reload(), "TRY AGAIN");
-        }
-    }
-}
-
-function updateStats() {
-    const hpBar = document.getElementById('hp-fill');
-    const stressBar = document.getElementById('stress-fill');
-    
-    hpBar.style.width = gameState.hp + "%";
-    stressBar.style.width = gameState.stress + "%";
-    
-    // HP Colors
-    if (gameState.hp <= 30) {
-        hpBar.style.backgroundColor = "red";
-        screens.container.classList.add('low-hp-flash');
-    } else {
-        hpBar.style.backgroundColor = gameState.hp <= 60 ? "yellow" : "green";
-        screens.container.classList.remove('low-hp-flash');
-    }
-
-    // Stress Colors (Blue to Red)
-    if (gameState.stress >= 85) {
-        stressBar.style.backgroundColor = "red"; 
-    } else if (gameState.stress >= 70) {
-        stressBar.style.backgroundColor = "orange"; 
-    } else {
-        stressBar.style.backgroundColor = "cyan"; 
     }
 }
 
@@ -336,7 +305,8 @@ function showReceipt() {
     screens.header.classList.add('hidden');
     screens.receipt.classList.remove('hidden');
     
-    const isIsland = gameState.currentRoute.receiptId === "ISLAND";
+    const isIsland = gameState.currentRoute.receiptId === "ISLAND GUARDIAN";
+    
     document.getElementById('receipt-content').innerHTML = isIsland ? `
         <div class="receipt-header" style="text-align:center"><b>ISLAND GUARDIAN RECEIPT</b></div>
         <div class="receipt-divider">--------------------------------<br>BROTHER LIFE STORE<br>--------------------------------</div>
@@ -346,8 +316,7 @@ Future Dad Energy........ +999
 Island Survivor Skill.... MAX
 Gaming Reflex............ LEGENDARY</pre>
         <div class="receipt-divider">--------------------------------<br>TOTAL VALUE: PRICELESS<br>--------------------------------</div>
-        <pre><b>TITLE UNLOCKED:<br>GUARDIAN OF TWO HEARTS</b></pre>
-        <div style="text-align:left><b>TITLE UNLOCKED:<br>GUARDIAN OF TWO HEARTS</b></div>
+        <div style="text-align:center"><b>TITLE UNLOCKED:<br>GUARDIAN OF TWO HEARTS</b></div>
         <div class="receipt-divider">--------------------------------</div>
         <p>Serving the law on a small island is no small feat, but being a great husband and a future father is your greatest mission yet. We know it’s not always easy being far from the mainland, but your strength inspires us all. Take good care of your wife and the little one on the way.</p>
         <p>Happy Birthday! Can’t wait to meet the newest member of our 'team' soon.</p>
@@ -361,12 +330,13 @@ Future Husband Potential. SSS
 Thesis Damage............ -999
 Coffee Consumption....... ∞</pre>
         <div class="receipt-divider">--------------------------------<br>TOTAL VALUE: MYTHIC RARE<br>--------------------------------</div>
-        <pre><b>TITLE UNLOCKED:<br>SCHOLAR OF TWO WORLDS</b></pre>
+        <div style="text-align:center"><b>TITLE UNLOCKED:<br>SCHOLAR OF TWO WORLDS</b></div>
         <div class="receipt-divider">--------------------------------</div>
         <p>Distance is just a technicality, but your hard work is legendary. We are so incredibly proud of how you're conquering your Master's degree over there. Keep going! The finish line is getting closer, and a beautiful future with your fiancé is waiting for you back home.</p>
         <p>Happy Birthday! We’re always cheering for you from across the ocean.</p>
         <div class="receipt-footer">— With Love, Mom, Dad, and the Sisters</div>
     `;
 }
+
 
 document.getElementById('play-again-btn').onclick = () => location.reload();
