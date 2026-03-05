@@ -299,6 +299,9 @@ document.getElementById('left-btn').onclick = () => { if(gameState.playerX > 10)
 document.getElementById('right-btn').onclick = () => { if(gameState.playerX < 350) gameState.playerX += 30; };
 
 function showReceipt() {
+
+    screens.container.classList.remove('low-hp-flash'); 
+    
     screens.canvas.classList.add('hidden');
     screens.controls.classList.add('hidden');
     screens.stats.classList.add('hidden');
@@ -316,7 +319,7 @@ Future Dad Energy........ +999
 Island Survivor Skill.... MAX
 Gaming Reflex............ LEGENDARY</pre>
         <div class="receipt-divider">--------------------------------<br>TOTAL VALUE: PRICELESS<br>--------------------------------</div>
-        <div style="text-align:center"><b>TITLE UNLOCKED:<br>GUARDIAN OF TWO HEARTS</b></div>
+        <div style="text-align:left"><b>TITLE UNLOCKED:<br>GUARDIAN OF TWO HEARTS</b></div>
         <div class="receipt-divider">--------------------------------</div>
         <p>Serving the law on a small island is no small feat, but being a great husband and a future father is your greatest mission yet. We know it’s not always easy being far from the mainland, but your strength inspires us all. Take good care of your wife and the little one on the way.</p>
         <p>Happy Birthday! Can’t wait to meet the newest member of our 'team' soon.</p>
@@ -330,7 +333,7 @@ Future Husband Potential. SSS
 Thesis Damage............ -999
 Coffee Consumption....... ∞</pre>
         <div class="receipt-divider">--------------------------------<br>TOTAL VALUE: MYTHIC RARE<br>--------------------------------</div>
-        <div style="text-align:center"><b>TITLE UNLOCKED:<br>SCHOLAR OF TWO WORLDS</b></div>
+        <div style="text-align:left"><b>TITLE UNLOCKED:<br>SCHOLAR OF TWO WORLDS</b></div>
         <div class="receipt-divider">--------------------------------</div>
         <p>Distance is just a technicality, but your hard work is legendary. We are so incredibly proud of how you're conquering your Master's degree over there. Keep going! The finish line is getting closer, and a beautiful future with your fiancé is waiting for you back home.</p>
         <p>Happy Birthday! We’re always cheering for you from across the ocean.</p>
@@ -340,3 +343,4 @@ Coffee Consumption....... ∞</pre>
 
 
 document.getElementById('play-again-btn').onclick = () => location.reload();
+
