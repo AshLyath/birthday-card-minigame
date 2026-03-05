@@ -303,7 +303,7 @@ canvas { background: #2e1b00; display: block; margin: 0 auto; width: 100%; heigh
     background: rgba(255, 255, 255, 0.05);
     font-size: 0.7rem;
     font-family: 'Monocraft', monospace;
-    line-height: 1.2;
+    line-height: 0.9;
     color: #eee;
 }
 
@@ -314,3 +314,4 @@ canvas { background: #2e1b00; display: block; margin: 0 auto; width: 100%; heigh
     font-size: 0.6rem;
     font-family: 'Monocraft', monospace;
 }
+
