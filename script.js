@@ -339,12 +339,13 @@ Coffee Consumption..... ∞
     msgEl.innerHTML = isIsland ? `
         <p>Serving the law on a small island is no small feat, but being a great husband and father is your greatest mission yet. Take care of the little one on the way!</p>
         <p>Happy Birthday! Can’t wait to meet the newest member of the 'team'.</p>
-        <div class="receipt-footer">— Love, Mom, Dad, & Sisters</div>
+        <div class="receipt-footer">— With love, Mom, Dad, & Sisters</div>
     ` : `
         <p>Distance is just a technicality; your hard work is legendary. We are so proud of your Master's journey. A beautiful future is waiting back home!</p>
         <p>Happy Birthday! We’re always cheering for you from across the ocean.</p>
-        <div class="receipt-footer">— Love, Mom, Dad, & Sisters</div>
+        <div class="receipt-footer">— With love, Mom, Dad, & Sisters</div>
     `;
 }
 
 document.getElementById('play-again-btn').onclick = () => location.reload();
+
