@@ -313,6 +313,7 @@ Future Dad Energy...... +999
 Island Survival........ MAX
 Gaming Reflex.......... EPIC
         </pre>
+        <div class="receipt-divider"></div>
         <div style="text-align:left; font-size: 0.8rem;">STATUS RANK: LEGENDARY</div>
         <div class="receipt-divider"></div>
         <div style="text-align:center; font-size: 0.8rem;">
@@ -329,6 +330,7 @@ Husband Potential...... SSS
 Thesis Damage.......... -999
 Coffee Consumption..... ∞
         </pre>
+        <div class="receipt-divider"></div>
         <div style="text-align:left; font-size: 0.8rem;">STATUS RANK: MYTHIC RARE</div>
         <div class="receipt-divider"></div>
         <div style="text-align:center; font-size: 0.8rem;">
@@ -348,7 +350,3 @@ Coffee Consumption..... ∞
 }
 
 document.getElementById('play-again-btn').onclick = () => location.reload();
-
-
-
-
