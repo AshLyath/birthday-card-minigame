@@ -1,0 +1,174 @@
+:root {
+    --pixel-border: 4px solid #00000046;
+    --dark-red: #8b0000;
+}
+
+body {
+    background-color: #000000;
+    color: rgb(255, 239, 60);
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    font-family: 'Courier New', Courier, monospace; /* Retro-style default */
+    overflow: hidden;
+}
+
+#game-container {
+    width: 100vw;
+    height: 100vh;
+    max-width: 450px;
+    background: #2a2a2a;
+    position: relative;
+    border: var(--pixel-border);
+    overflow-y:auto;
+}
+
+.hidden { display: none !important; }
+.screen { padding: 20px; text-align: center; }
+
+/* Header Styling */
+header h1 { font-size: 1.2rem; margin: 10px 0 0; text-align: center; color: rgb(255, 239, 60);}
+header h2 { font-size: 1rem; font-weight: normal; margin-bottom: 10px; text-align: center; color: rgb(255, 239, 60);}
+header h3 { text-align: center; color: rgb(255, 239, 60);}
+
+button { 
+    justify-content: center; 
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #be5c06;
+    color: #ffffff;
+    border-top: 20px;
+    padding: 10px;
+    font-size: 0.85rem;
+    font-weight: bolder;
+    border-radius: 5px;
+}
+
+#play-again-btn {
+    display: block;      /* Forces the button to be on its own line */
+    margin: 30px auto;   /* 'auto' on left and right pulls it to the center */
+    padding: 12px 30px;
+    background: #fff;
+    color: #000;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+#stats-bar {
+    display: flex;
+    flex-direction: column; /* Stacks HP and Stress on top of each other */
+    gap: 10px;
+    padding: 15px 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.stat-group {
+    display: flex;
+    justify-content: space-between; /* Pushes label to left, bar to right */
+    align-items: center; /* Keeps them perfectly centered vertically */
+    width: 100%;
+}
+
+.stat-group label {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #fff;
+    text-align: left;
+    flex: 1; /* Takes up available space on the left */
+}
+
+.bar-bg {
+    width: 200px; /* Fixed width so bars look uniform */
+    height: 14px;
+    background: #222;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-left: 10px; /* Small gap from the label */
+}
+
+#hp-fill, #stress-fill {
+    height: 100%;
+    width: 100%; /* Initial state */
+    transition: width 0.3s ease;
+}
+
+
+
+/* Character Cards */
+.char-card {
+    border: 2px solid  rgba(245, 228, 40, 0);
+    margin-bottom: 15px;
+    padding: 10px;
+    padding-bottom: 30px;
+    background:  rgba(0, 0, 0, 0.509);
+    color: #ffffff;
+    border-radius: 15px;
+}
+.char-card img { height: 80px; }
+.char-desc { font-size: 0.80rem; margin: 8px 0; }
+
+/* Gameplay Canvas */
+canvas { background: #2e1b00; display: block; margin: 0 auto; width: 100%; height: 60%; }
+
+/* Mobile Controls */
+#mobile-controls {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    padding: 15px;
+}
+#mobile-controls button {
+    padding: 5px 10px;
+    font-size: 1.5rem;
+    background: #ffffff;
+    color: #000000;
+    border: 2px solid #ffffff00;
+}
+
+/* QnA Options */
+.options-container { display: flex; flex-direction: column; align-items: center; background-color: #00000027;}
+.option-box {
+    background:rgba(162, 33, 255, 0.445);
+    border: 2px solid rgba(179, 72, 255, 0.484);
+    margin: 5px 0;
+    padding: 10px;
+    width: 50%;
+    cursor: pointer;
+    border-radius: 20px;
+}
+.option-box img { height: 80px; }
+.option-box span { display: block; font-size: 0.8rem; }
+
+/* Popups */
+#popup-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.85);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 1000;
+}
+.pixel-box { background: #00000071; border: none; padding: 10px; width: 75%; text-align: center; }
+.red-text { color: #ff0000; font-size: 0.7rem; margin-top: 10px; }
+
+/* Animations */
+.screen-shake { animation: shake 0.2s; }
+@keyframes shake {
+    0%, 100% { transform: translate(0); }
+    25% { transform: translate(5px, 5px); }
+    75% { transform: translate(-5px, -5px); }
+}
+
+.low-hp-flash { animation: flashRed 1s infinite; }
+@keyframes flashRed {
+    0%, 100% { background-color: #1a1a1a; }
+    50% { background-color: #400; }
+}
+
+/* Receipt */
+#receipt-page { text-align: left; padding: 30px; font-size: 1rem; }
+#receipt-page header { text-align: center; text-decoration: underline; }
+#receipt-page button {align-items: center; border-top: 20px;}
