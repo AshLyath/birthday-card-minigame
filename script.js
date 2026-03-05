@@ -35,7 +35,7 @@ const routes = {
             { header: "DAILY DUTY", obs: "log", q: "IT'S A BUSY DAY, WHAT SHOULD I DO?", 
               options: [{n: "Handle Court Case", c:true, i:"court.png"}, {n: "Buy Wife Snack", c:true, i:"snack.png"}, {n: "Take Gaming Break", c:false, i:"game.png"}] },
             { header: "CRAVING ALERT BOSS", obs: "bush", q: "WIFE IS CRAVING, WHAT SHOULD I DO?", 
-              options: [{n: "Buy the food immediately", c:true, i:"food.png"}, {n: "Say ‘5 menit lagi ya bebi’", c:false, i:"talk.png"}, {n: "Cook for wife", c:false, i:"cook.png"}] },
+              options: [{n: "Buy the food immediately", c:true, i:"food.png"}, {n: "Say ‘5 menit lagi ya bebi’", c:false, i:"talk.png"}, {n: "Cook something for wife", c:false, i:"cook.png"}] },
             { header: "SELF DOUBT", obs: "rock", q: "“Am I ready to be a father?”", 
               options: [{n: "Parent Buff", c:true, i:"parent.png"}, {n: "Sister Buff", c:true, i:"sister.png"}] }
         ]
@@ -45,8 +45,8 @@ const routes = {
         levels: [
             { header: "DEADLINE DUNGEON", obs: "log", q: "IT'S A BUSY DAY, WHAT SHOULD I DO?", 
               options: [{n: "Write Thesis", c:true, i:"thesis.png"}, {n: "Watch Anime", c:false, i:"anime.png"}, {n: "Call Fiancé", c:true, i:"love.png"}] },
-            { header: "TIME ZONE MONSTER", obs: "bush", q: "THINGS TO DO DURING THE WEEKEND.", 
-              options: [{n: "Sleep all day", c:false, i:"sleep.png"}, {n: "Stay up to call fiancé", c:true, i:"love.png"}, {n: "Gaming all night long", c:false, i:"game.png"}] },
+            { header: "TIME ZONE MONSTER", obs: "bush", q: "TOMMORROW IS THE WEEKEND, WHAT SHOULD I DO TONIGHT?.", 
+              options: [{n: "Sleep all day until noon", c:false, i:"sleep.png"}, {n: "Video call with fiancé", c:true, i:"love.png"}, {n: "Gaming all night long", c:false, i:"game.png"}] },
             { header: "DISTANCE DOUBT", obs: "rock", q: "“Is LDR too hard?”", 
               options: [{n: "Parent Buff", c:true, i:"parent.png"}, {n: "Sister Buff", c:true, i:"sister.png"}] }
         ]
@@ -122,9 +122,9 @@ function startMinigame() {
 
 function finishMinigamePhase() {
     if (gameState.level < 3) {
-        showQnA(); // QnA appears after minigame for lvl 1 & 2 [cite: 18]
+        showQnA(); 
     } else {
-        showPopup("Congratulation. Mission Complete!", true); // Lvl 3 completion [cite: 21]
+        showNotice("MISSION COMPLETE", "Congratulations! You've Conquered The Journey.", () => showReceipt(), "VIEW CREDITS");
     }
 }
 
@@ -168,10 +168,13 @@ document.getElementById('right-btn').addEventListener('click', () => {
 function showQnA() {
     const levelData = gameState.currentRoute.levels[gameState.level - 1];
     const container = document.getElementById('qna-options');
-    container.innerHTML = '';
-    container.classList.remove('hidden');
     
-    document.getElementById('popup-header').innerText = `LEVEL ${gameState.level}: ${levelData.header}`;
+    document.getElementById('popup-box').classList.remove('hidden');
+    document.getElementById('notice-box').classList.add('hidden');
+    screens.popup.classList.remove('hidden');
+
+    container.innerHTML = '';
+    document.getElementById('popup-header').innerText = `LEVEL ${gameState.level}`;
     document.getElementById('popup-text').innerText = levelData.q;
     
     levelData.options.forEach(opt => {
@@ -181,8 +184,37 @@ function showQnA() {
         div.onclick = () => handleChoice(opt.c, opt.n);
         container.appendChild(div);
     });
+}
+
+function showNotice(header, text, callback, btnText = "OK", isGameOver = false) {
+    const noticeBox = document.getElementById('notice-box');
+    const qnaBox = document.getElementById('popup-box');
     
+    qnaBox.classList.add('hidden');
+    noticeBox.classList.remove('hidden');
     screens.popup.classList.remove('hidden');
+
+    document.getElementById('notice-header').innerText = header;
+    document.getElementById('notice-text').innerText = text;
+    
+    const btn = document.getElementById('notice-confirm-btn');
+    btn.innerText = btnText;
+
+    if (isGameOver) {
+        noticeBox.classList.add('game-over-theme');
+        btn.style.backgroundColor = "#ff4444";
+        btn.style.color = "white";
+    } else {
+        noticeBox.classList.remove('game-over-theme');
+        btn.style.backgroundColor = "rgb(255, 239, 60)";
+        btn.style.color = "black";
+    }
+
+    btn.onclick = () => {
+        screens.popup.classList.add('hidden');
+        noticeBox.classList.add('hidden'); // Hide the box too
+        if (callback) callback();
+    };
 }
 
 function hitObstacle() {
@@ -194,9 +226,7 @@ function hitObstacle() {
     if (gameState.hp <= 0) {
         gameState.active = false;
         clearTimeout(gameState.levelTimer);
-        
-        // POPUP 1: Triggered by physical damage (HP)
-        showPopup("Too Much Damage. Try Again!", false, () => startLevel(gameState.level), "RESTART");
+        showNotice("SYSTEM FAILURE", "Too Much Damage! Try Again.", () => startLevel(gameState.level), "RESTART", true);
     }
 }
 
@@ -206,40 +236,31 @@ function handleChoice(isCorrect, name) {
     if (isCorrect) {
         gameState.stress = Math.max(10, gameState.stress - 15);
         updateStats(); 
-
+        
         warnEl.classList.add('hidden'); 
-        document.getElementById('qna-options').classList.add('hidden');
         
         if (gameState.level === 3 && !gameState.buffActive) {
-            showPopup(`▶ ACTIVATE ${name.toUpperCase()}?`, false, () => {
+            showNotice("POWER UP", `ACTIVATE ${name.toUpperCase()}?`, () => {
                 gameState.buffActive = true;
                 startLevel(3); 
             }, "YES");
         } else {
-            showPopup("Level Clear!", false, () => startLevel(gameState.level + 1));
+            showNotice("LEVEL CLEAR", "Path cleared! Proceed to next stage.", () => startLevel(gameState.level + 1));
         }
     } else {
         gameState.stress += 15;
         updateStats(); 
 
-        // If stress is 100+, Game Over immediately
         if (gameState.stress >= 100) {
             gameState.active = false;
-            showPopup("Stress Overload! Game Over", false, () => location.reload(), "TRY AGAIN");
-            return; // Stop here so it doesn't try to show warnings
+            showNotice("STRESS OVERLOAD", "Mission Failed. Take a deep breath!", () => location.reload(), "TRY AGAIN", true);
+            return;
         }
 
         warnEl.classList.remove('hidden');
-        // Logic-based warnings
-        if (gameState.stress <= 55) {
-            warnEl.innerText = "⚠ Hey... that doesn’t feel right. Try thinking again.";
-        } 
-        else if (gameState.stress > 55 && gameState.stress <= 70) {
-            warnEl.innerText = "⚠ Are you sure about that choice? Something feels off.";
-        } 
-        else {
-            warnEl.innerText = "⚠ Last warning… Choose wisely before it's too late.";
-        }
+        if (gameState.stress <= 55) warnEl.innerText = "⚠ Hey... that doesn’t feel right.";
+        else if (gameState.stress <= 70) warnEl.innerText = "⚠ Are you sure? Something feels off.";
+        else warnEl.innerText = "⚠ Last warning… Choose wisely.";
     }
 }
 
@@ -250,7 +271,6 @@ function updateStats() {
     hpBar.style.width = gameState.hp + "%";
     stressBar.style.width = gameState.stress + "%";
     
-    // HP Colors
     if (gameState.hp <= 30) {
         hpBar.style.backgroundColor = "red";
         screens.container.classList.add('low-hp-flash');
@@ -259,7 +279,6 @@ function updateStats() {
         screens.container.classList.remove('low-hp-flash');
     }
 
-    // Stress Colors (Blue to Red)
     if (gameState.stress >= 85) {
         stressBar.style.backgroundColor = "red"; 
     } else if (gameState.stress >= 70) {
@@ -269,39 +288,11 @@ function updateStats() {
     }
 }
 
-function showPopup(text, isFinal, callback, btnText = "OK") {
-    // 1. Clear out Q&A specific elements so they don't block the message
-    document.getElementById('qna-options').classList.add('hidden');
-    document.getElementById('warning-text').classList.add('hidden');
-
-    // 2. Show the overlay
-    screens.popup.classList.remove('hidden');
-    
-    // 3. Set the text and button
-    const btn = document.getElementById('popup-confirm-btn');
-    document.getElementById('popup-text').innerText = text;
-    
-    // Ensure the header is clean for Game Over/Restart
-    document.getElementById('popup-header').innerText = isFinal ? "MISSION COMPLETE" : "NOTICE";
-
-    btn.innerText = isFinal ? "View Receipt" : btnText;
-    btn.classList.remove('hidden');
-
-    btn.onclick = () => {
-        screens.popup.classList.add('hidden');
-        btn.classList.add('hidden');
-        if (isFinal) showReceipt();
-        else if (callback) callback();
-    };
-}
-
 document.getElementById('left-btn').onclick = () => { if(gameState.playerX > 10) gameState.playerX -= 30; };
 document.getElementById('right-btn').onclick = () => { if(gameState.playerX < 350) gameState.playerX += 30; };
 
 function showReceipt() {
-
-    screens.container.classList.remove('low-hp-flash'); 
-    
+    screens.container.classList.remove('low-hp-flash');
     screens.canvas.classList.add('hidden');
     screens.controls.classList.add('hidden');
     screens.stats.classList.add('hidden');
@@ -309,38 +300,51 @@ function showReceipt() {
     screens.receipt.classList.remove('hidden');
     
     const isIsland = gameState.currentRoute.receiptId === "ISLAND GUARDIAN";
-    
-    document.getElementById('receipt-content').innerHTML = isIsland ? `
-        <div class="receipt-header" style="text-align:center"><b>ISLAND GUARDIAN RECEIPT</b></div>
-        <div class="receipt-divider">--------------------------------<br>BROTHER LIFE STORE<br>--------------------------------</div>
-        <pre>Court Responsibility..... +20
-Husband Patience......... +50
-Future Dad Energy........ +999
-Island Survivor Skill.... MAX
-Gaming Reflex............ LEGENDARY</pre>
-        <div class="receipt-divider">--------------------------------<br>TOTAL VALUE: PRICELESS<br>--------------------------------</div>
-        <div style="text-align:left"><b>TITLE UNLOCKED:<br>GUARDIAN OF TWO HEARTS</b></div>
-        <div class="receipt-divider">--------------------------------</div>
-        <p>Serving the law on a small island is no small feat, but being a great husband and a future father is your greatest mission yet. We know it’s not always easy being far from the mainland, but your strength inspires us all. Take good care of your wife and the little one on the way.</p>
-        <p>Happy Birthday! Can’t wait to meet the newest member of our 'team' soon.</p>
-        <div class="receipt-footer">— With Love, Mom, Dad, and the Sisters</div>
+    const mainEl = document.getElementById('receipt-main-content');
+    const msgEl = document.getElementById('personal-message');
+
+    mainEl.innerHTML = isIsland ? `
+        <div style="text-align:center"><b>ISLAND GUARDIAN</b></div>
+        <div class="receipt-divider"></div>
+        <pre style="font-size: 0.8rem;">
+Court Responsibility... +20
+Husband Patience....... +50
+Future Dad Energy...... +999
+Island Survival........ MAX
+Gaming Reflex.......... EPIC
+        </pre>
+        <div class="receipt-divider">TOTAL VALUE: LEGENDARY</div>
+        <div class="receipt-divider"></div>
+        <div style="text-align:center; font-size: 0.8rem;">
+            <b>TITLE UNLOCKED:</b><br>
+            GUARDIAN OF TWO HEARTS
+        </div>
     ` : `
-        <div class="receipt-header" style="text-align:center"><b>OVERSEAS SCHOLAR RECEIPT</b></div>
-        <div class="receipt-divider">--------------------------------<br>BROTHER LIFE STORE<br>--------------------------------</div>
-        <pre>Academic Endurance....... +80
-LDR Loyalty.............. +100
-Future Husband Potential. SSS
-Thesis Damage............ -999
-Coffee Consumption....... ∞</pre>
-        <div class="receipt-divider">--------------------------------<br>TOTAL VALUE: MYTHIC RARE<br>--------------------------------</div>
-        <div style="text-align:left"><b>TITLE UNLOCKED:<br>SCHOLAR OF TWO WORLDS</b></div>
-        <div class="receipt-divider">--------------------------------</div>
-        <p>Distance is just a technicality, but your hard work is legendary. We are so incredibly proud of how you're conquering your Master's degree over there. Keep going! The finish line is getting closer, and a beautiful future with your fiancé is waiting for you back home.</p>
+        <div style="text-align:center"><b>OVERSEAS SCHOLAR</b></div>
+        <div class="receipt-divider"></div>
+        <pre style="font-size: 0.8rem;">
+Academic Endurance..... +80
+LDR Loyalty............ +100
+Husband Potential...... SSS
+Thesis Damage.......... -999
+Coffee Consumption..... ∞
+        </pre>
+        <div class="receipt-divider">TOTAL VALUE: MYTHIC RARE</div>
+        <div class="receipt-divider"></div>
+        <div style="text-align:center; font-size: 0.8rem;">
+            <b>TITLE UNLOCKED:</b><br>
+            SCHOLAR OF TWO WORLDS
+        </div>
+    `;
+    msgEl.innerHTML = isIsland ? `
+        <p>Serving the law on a small island is no small feat, but being a great husband and father is your greatest mission yet. Take care of the little one on the way!</p>
+        <p>Happy Birthday! Can’t wait to meet the newest member of the 'team'.</p>
+        <div class="receipt-footer">— Love, Mom, Dad, & Sisters</div>
+    ` : `
+        <p>Distance is just a technicality; your hard work is legendary. We are so proud of your Master's journey. A beautiful future is waiting back home!</p>
         <p>Happy Birthday! We’re always cheering for you from across the ocean.</p>
-        <div class="receipt-footer">— With Love, Mom, Dad, and the Sisters</div>
+        <div class="receipt-footer">— Love, Mom, Dad, & Sisters</div>
     `;
 }
 
-
 document.getElementById('play-again-btn').onclick = () => location.reload();
-
