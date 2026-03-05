@@ -1,0 +1,318 @@
+@font-face {
+    font-family: 'Monocraft';
+    src: url('https://cdn.jsdelivr.net/gh/IdreesInc/Monocraft@master/Monocraft.ttf');
+}
+
+:root {
+    --pixel-border: 4px solid #00000046;
+    --dark-red: #8b0000;
+}
+
+body {
+    background-color: #000000;
+    color: rgb(255, 255, 255);
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    font-family: 'Monocraft', monospace; /* Set Monocraft as primary */
+    overflow-y: auto; /* Allow the page to scroll if the container grows */
+}
+
+.screen { 
+    padding: 20px; 
+    text-align: center;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+#game-container {
+    width: 100vw;
+    min-height: 100vh; /* Changed from height to min-height to prevent cutting */
+    max-width: 450px;
+    background: #2a2a2a;
+    position: relative;
+    border: var(--pixel-border);
+    overflow-y: visible; /* Allow content to push the container longer */
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 40px; /* Buffer for bottom buttons */
+}
+
+.hidden { display: none !important; }
+.screen { padding: 20px; text-align: center; }
+
+#start-page {
+    height: 100vh; /* Fill the container height */
+    justify-content: center; /* Vertical centering */
+    align-items: center;     /* Horizontal centering */
+}
+
+#start-page h2, #start-page h3 {
+    margin: 10px 0; color: #ffffff;
+    font-family: 'Monocraft', monospace;
+}
+
+#btn-start-init {
+    margin-top: 20px; background-color: #fff; color: #000; font-family: 'Monocraft', monospace;
+}
+
+header h1 { font-family: 'Monocraft', monospace;font-size: 1.2rem; margin: 10px 0 0; text-align: center; color: rgb(255, 245, 55);}
+header h2 { font-family: 'Monocraft', monospace;font-size: 1rem; font-weight: normal; margin-bottom: 10px; text-align: center; color: rgb(255, 245, 55);}
+header h3 { font-family: 'Monocraft', monospace;text-align: center; color: rgb(255, 255, 255);}
+
+.select-title { color: red; font-family: 'Monocraft', monospace;}
+
+button { 
+    justify-content: center; 
+    font-family: 'Monocraft', monospace;
+    background-color: #fff;
+    color: #000;
+    border-top: 20px;
+    padding: 10px;
+    font-size: 0.85rem;
+    font-weight: bolder;
+    border-radius: 5px;
+}
+
+#play-again-btn {
+    display: block;      /* Forces the button to be on its own line */
+     margin: 30px auto;   /* 'auto' on left and right pulls it to the center */
+    padding: 12p x 30px;
+    background: #fff;
+    color: #000;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-family: 'Monocraft', monospace;
+    cursor: pointer;
+}
+
+#stats-bar {
+    display: flex;
+    flex-direction: column; /* Stacks HP and Stress on top of each other */
+    gap: 10px;
+    padding: 15px 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.stat-group {
+    display: flex;
+    justify-content: space-between; /* Pushes label to left, bar to right */
+    align-items: center; /* Keeps them perfectly centered vertically */
+    width: 100%;
+}
+
+.stat-group label {
+    font-family: 'Monocraft', monospace;
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #fff;
+    text-align: left;
+    flex: 1; /* Takes up available space on the left */
+}
+
+.bar-bg {
+    width: 200px; /* Fixed width so bars look uniform */
+    height: 14px;
+    background: #222;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-left: 10px; /* Small gap from the label */
+}
+
+#hp-fill, #stress-fill {
+    height: 100%;
+    width: 100%; /* Initial state */
+    transition: width 0.3s ease;
+}
+
+.char-card {
+    margin-bottom: 25px;
+    padding: 20px;
+    border-radius: 15px;
+    transition: transform 0.2s;
+}
+
+#card-island {
+    background: rgba(34, 52, 139, 0.2); /* Dark Forest Green tint */
+    border: 3px solid #0030cf;        /* Bright Emerald Border */
+    box-shadow: 0 0 15px rgba(74, 106, 222, 0.3);
+}
+
+#card-island h3 {
+    color: #4ade80;
+    text-shadow: 2px 2px #000;
+    font-family: 'Monocraft', monospace;
+}
+
+#card-scholar {
+    background: rgba(43, 226, 67, 0.2); /* Deep Purple tint */
+    border: 3px solid #00c50d;          /* Bright Purple Border */
+    box-shadow: 0 0 15px rgba(85, 247, 93, 0.3);
+}
+
+#card-scholar h3 {
+    color: #37c6ff;
+    text-shadow: 2px 2px #000;
+    font-family: 'Monocraft', monospace;
+}
+.char-card img { height: 150px; }
+.char-desc { font-size: 0.80rem; margin: 8px 0; font-family: 'Monocraft', monospace;}
+
+canvas { background: #2e1b00; display: block; margin: 0 auto; width: 100%; height: 60%; }
+ 
+#mobile-controls {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    padding: 15px;
+}
+#mobile-controls button {
+    padding: 5px 10px;
+    font-size: 1.5rem;
+    background: #ffffff;
+    color: #000000;
+    border: 2px solid #ffffff00;
+}
+
+.options-container { display: flex; flex-direction: column; align-items: center; background-color: #ffffff00; border-radius: 30px;}
+.option-box {
+    background:rgba(123, 12, 202, 0.995);
+    border: 2px solid rgb(109, 0, 188);
+    margin: 5px;
+    padding: 10px;
+    width: 55%;
+    cursor: pointer;
+    border-radius: 20px;
+}
+.option-box img { height: 100px; }
+.option-box span { display: block; font-size: 1rem; font-family: 'Monocraft', monospace;}
+.pixel-box { background: #00000000; border: none; padding: 10px; width: 75%; text-align: center; }
+.red-text { color: #ff0000; font-size: 0.8rem; margin-top: 10px; font-family: 'Monocraft', monospace;}
+
+#popup-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.628); /* Darker overlay for better focus */
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+    z-index: 2000; /* High z-index */
+}
+
+.notice-style {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #1a1a1a !important; /* Force the dark background */
+    border: 4px double rgb(255, 239, 60) !important; /* Bright Yellow Double Border */
+    padding: 30px;
+    width: 80%;
+    max-width: 350px;
+    text-align: center;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 1); /* Heavy shadow to pop out */
+    z-index: 2100;
+    border-radius: 7%;
+}
+
+.notice-style.game-over-theme {
+    border-color: #ff4444 !important;
+}
+
+.notice-style h2 {
+    font-size: 1.5rem;
+    margin: 0 0 15px 0;
+    text-shadow: 2px 2px #000;
+    font-family: 'Monocraft', monospace;
+}
+
+#notice-confirm-btn {
+    display: inline-block !important; 
+    margin-top: 20px;
+    padding: 12px 25px;
+    background: rgb(255, 239, 60) !important;
+    color: #000 !important;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    font-family: 'Monocraft', monospace;
+}
+
+.screen-shake { animation: shake 0.2s; }
+@keyframes shake {
+    0%, 100% { transform: translate(0); }
+    25% { transform: translate(5px, 5px); }
+    75% { transform: translate(-5px, -5px); }
+}
+
+.low-hp-flash { animation: flashRed 1s infinite; }
+@keyframes flashRed {
+    0%, 100% { background-color: #1a1a1a; }
+    50% { background-color: #400; }
+}
+
+#receipt-page { 
+    text-align: left; 
+    padding: 20px; 
+    font-size: 0.9rem; 
+    font-family: 'Monocraft', monospace;
+    word-wrap: break-word;
+}
+
+#receipt-page header { text-align: center; text-decoration: underline; font-size: 1.2rem; font-family: 'Monocraft', monospace;}
+#receipt-page footer { text-align: left; font-size: 0.8rem; font-family: 'Monocraft', monospace;}
+#receipt-page button { align-items: center; border-top: 20px; font-family: 'Monocraft', monospace;}
+
+.paper-slip {
+    background: #fdfdfd;
+    color: #222; /* Dark ink on white paper */
+    padding: 20px;
+    width: 85%;
+    margin: 20px auto;
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.5);
+    position: relative;
+    font-family: 'Monocraft', monospace;
+    transform: rotate(-1deg); /* Slight tilt for realism */
+}
+
+.paper-slip::after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 100%;
+    height: 10px;
+    background: linear-gradient(-45deg, #2a2a2a 5px, transparent 0), 
+                linear-gradient(45deg, #2a2a2a 5px, transparent 0);
+    background-size: 10px 10px;
+}
+
+.receipt-divider {
+    border-top: 2px dashed #444;
+    margin: 10px 0;
+}
+
+.letter-box {
+    margin: 30px 20px;
+    padding: 15px;
+    border-left: 3px solid rgb(255, 239, 60);
+    background: rgba(255, 255, 255, 0.05);
+    font-size: 0.7rem;
+    font-family: 'Monocraft', monospace;
+    line-height: 1;
+    color: #eee;
+}
+
+.receipt-footer {
+    margin-top: 15px;
+    font-weight: bold;
+    color: rgb(255, 239, 60);
+    font-size: 0.6rem;
+    font-family: 'Monocraft', monospace;
+}
+
+
