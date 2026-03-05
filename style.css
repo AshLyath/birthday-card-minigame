@@ -50,17 +50,18 @@ body {
 
 #start-page h2, #start-page h3 {
     margin: 10px 0; color: #ffffff;
+    font-family: 'Monocraft', monospace;
 }
 
 #btn-start-init {
-    margin-top: 20px; background-color: #fff; color: #000;
+    margin-top: 20px; background-color: #fff; color: #000; font-family: 'Monocraft', monospace;
 }
 
-header h1 { font-size: 1.2rem; margin: 10px 0 0; text-align: center; color: rgb(255, 245, 55);}
-header h2 { font-size: 1rem; font-weight: normal; margin-bottom: 10px; text-align: center; color: rgb(255, 245, 55);}
-header h3 { text-align: center; color: rgb(255, 255, 255);}
+header h1 { font-family: 'Monocraft', monospace;font-size: 1.2rem; margin: 10px 0 0; text-align: center; color: rgb(255, 245, 55);}
+header h2 { font-family: 'Monocraft', monospace;font-size: 1rem; font-weight: normal; margin-bottom: 10px; text-align: center; color: rgb(255, 245, 55);}
+header h3 { font-family: 'Monocraft', monospace;text-align: center; color: rgb(255, 255, 255);}
 
-.select-title { color: red;}
+.select-title { color: red; font-family: 'Monocraft', monospace;}
 
 button { 
     justify-content: center; 
@@ -76,14 +77,14 @@ button {
 
 #play-again-btn {
     display: block;      /* Forces the button to be on its own line */
-    margin: 30px auto;   /* 'auto' on left and right pulls it to the center */
-    padding: 12px 30px;
+     margin: 30px auto;   /* 'auto' on left and right pulls it to the center */
+    padding: 12p x 30px;
     background: #fff;
     color: #000;
     border: none;
     border-radius: 8px;
     font-weight: bold;
-    font-family: inherit;
+    f ont-family: 'Monocraft', monospace;
     cursor: pointer;
 }
 
@@ -104,6 +105,7 @@ button {
 }
 
 .stat-group label {
+    font-family: 'Monocraft', monospace;
     font-size: 0.9rem;
     font-weight: bold;
     color: #fff;
@@ -143,6 +145,7 @@ button {
 #card-island h3 {
     color: #4ade80;
     text-shadow: 2px 2px #000;
+    font-family: 'Monocraft', monospace;
 }
 
 #card-scholar {
@@ -154,6 +157,7 @@ button {
 #card-scholar h3 {
     color: #37c6ff;
     text-shadow: 2px 2px #000;
+    font-family: 'Monocraft', monospace;
 }
 .char-card img { height: 150px; }
 .char-desc { font-size: 0.80rem; margin: 8px 0; font-family: 'Monocraft', monospace;}
@@ -163,7 +167,7 @@ canvas { background: #2e1b00; display: block; margin: 0 auto; width: 100%; heigh
 #mobile-controls {
     display: flex;
     justify-content: center;
-    gap: 30px;
+    gap: 50px;
     padding: 15px;
 }
 #mobile-controls button {
@@ -187,7 +191,7 @@ canvas { background: #2e1b00; display: block; margin: 0 auto; width: 100%; heigh
 .option-box img { height: 100px; }
 .option-box span { display: block; font-size: 1rem; font-family: 'Monocraft', monospace;}
 .pixel-box { background: #00000000; border: none; padding: 10px; width: 75%; text-align: center; }
-.red-text { color: #ff0000; font-size: 0.8rem; margin-top: 10px; }
+.red-text { color: #ff0000; font-size: 0.8rem; margin-top: 10px; font-family: 'Monocraft', monospace;}
 
 #popup-overlay {
     position: absolute;
@@ -222,6 +226,7 @@ canvas { background: #2e1b00; display: block; margin: 0 auto; width: 100%; heigh
     font-size: 1.5rem;
     margin: 0 0 15px 0;
     text-shadow: 2px 2px #000;
+    font-family: 'Monocraft', monospace;
 }
 
 #notice-confirm-btn {
@@ -234,6 +239,7 @@ canvas { background: #2e1b00; display: block; margin: 0 auto; width: 100%; heigh
     cursor: pointer;
     font-size: 1rem;
     font-weight: bold;
+    font-family: 'Monocraft', monospace;
 }
 
 .screen-shake { animation: shake 0.2s; }
@@ -253,12 +259,13 @@ canvas { background: #2e1b00; display: block; margin: 0 auto; width: 100%; heigh
     text-align: left; 
     padding: 20px; 
     font-size: 0.9rem; 
+    font-family: 'Monocraft', monospace;
     word-wrap: break-word;
 }
 
-#receipt-page header { text-align: center; text-decoration: underline; font-size: 1.2rem;}
-#receipt-page footer { text-align: left; font-size: 0.8rem;}
-#receipt-page button { align-items: center; border-top: 20px;}
+#receipt-page header { text-align: center; text-decoration: underline; font-size: 1.2rem; font-family: 'Monocraft', monospace;}
+#receipt-page footer { text-align: left; font-size: 0.8rem; font-family: 'Monocraft', monospace;}
+#receipt-page button { align-items: center; border-top: 20px; font-family: 'Monocraft', monospace;}
 
 .paper-slip {
     background: #fdfdfd;
@@ -294,7 +301,8 @@ canvas { background: #2e1b00; display: block; margin: 0 auto; width: 100%; heigh
     padding: 15px;
     border-left: 3px solid rgb(255, 239, 60);
     background: rgba(255, 255, 255, 0.05);
-    font-size: 0.85rem;
+    font-size: 0.75rem;
+    font-family: 'Monocraft', monospace;
     line-height: 1.6;
     color: #eee;
 }
@@ -304,4 +312,6 @@ canvas { background: #2e1b00; display: block; margin: 0 auto; width: 100%; heigh
     font-weight: bold;
     color: rgb(255, 239, 60);
     font-size: 0.75rem;
+    font-family: 'Monocraft', monospace;
 }
+
